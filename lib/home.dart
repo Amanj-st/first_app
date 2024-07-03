@@ -27,18 +27,18 @@ class _MyHomePageState extends State<MyHomePage> {
   void _generateRandomNumber() {
     final random = Random();
     _randomNumber = random.nextInt(1000000);
-    ss = _randomNumber! * 2 - 1524;
+    ss = _randomNumber!* 2 - 154525 ;
   }
 
   void mathint() {
-    ss = _randomNumber! * 2 - 154525;
+    ss = _randomNumber! * 2 - 154525; //am m3adalaya atwani gorankary teda bkayt ba arazwe xot balam ka goret abet la katey nardny code bo user ba haman shewa codaka hsab bkayt
     aa = ss.toString();
 
     setState(() {});
 
  
     if (controller.text == aa) {
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const SecondPage()),
       );
@@ -80,7 +80,7 @@ print(myServices.sharedPreferences?.getString("active"));
           child: Column(
             children: [
               const SizedBox(height: 100),
-              Text("$_randomNumber"),
+              Text("$_randomNumber"),//am texta abet user bebenet bo away bo toy bneret
               TextFormField(
                 controller: controller,
               ),
@@ -106,7 +106,7 @@ print(myServices.sharedPreferences?.getString("active"));
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              Text("$ss"),
+              Text("$ss"),// am texta nabet user bebenet abet to ba 7aseba textakay aw bkaita naw m3adalaka w walamakay bo user bneret
             ],
           ),
         ),

@@ -1,8 +1,10 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:randnum/myservices.dart';
 import 'package:randnum/page2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -20,30 +22,40 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    _generateRandomNumber();
     super.initState();
+    _init();
   }
 
-  void _generateRandomNumber() {
-    final random = Random();
-    _randomNumber = random.nextInt(1000000);
-    ss = _randomNumber!* 2 - 154525 ;
+  void _init() async {
+    await _generateRandomNumber();
+    setState(() {});
+  }
+
+  Future<void> _generateRandomNumber() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('randomNumber')) {
+      _randomNumber = prefs.getInt('randomNumber'); //this is for save random number on initial app for first time
+    } else {
+      final random = Random();
+      _randomNumber = random.nextInt(1000000);
+      prefs.setInt('randomNumber', _randomNumber!);
+    }
+    ss = _randomNumber! * 2 - 154525;
   }
 
   void mathint() {
-    ss = _randomNumber! * 2 - 154525; //am m3adalaya atwani gorankary teda bkayt ba arazwe xot balam ka goret abet la katey nardny code bo user ba haman shewa codaka hsab bkayt
+    ss = _randomNumber! * 2 - 154525;
     aa = ss.toString();
 
     setState(() {});
 
- 
     if (controller.text == aa) {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const SecondPage()),
       );
-         myServices.sharedPreferences?.setString("active", "yes");
-print(myServices.sharedPreferences?.getString("active"));
+      myServices.sharedPreferences?.setString("active", "yes");
+      print(myServices.sharedPreferences?.getString("active"));
       print(ss);
     } else {
       showDialog(
@@ -55,7 +67,7 @@ print(myServices.sharedPreferences?.getString("active"));
             actions: <Widget>[
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop();
                 },
                 child: const Text('OK'),
               ),
@@ -80,7 +92,7 @@ print(myServices.sharedPreferences?.getString("active"));
           child: Column(
             children: [
               const SizedBox(height: 100),
-              Text("$_randomNumber"),//am texta abet user bebenet bo away bo toy bneret
+              Text("$_randomNumber"),
               TextFormField(
                 controller: controller,
               ),
@@ -106,7 +118,7 @@ print(myServices.sharedPreferences?.getString("active"));
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              Text("$ss"),// am texta nabet user bebenet abet to ba 7aseba textakay aw bkaita naw m3adalaka w walamakay bo user bneret
+              Text("$ss"),
             ],
           ),
         ),
